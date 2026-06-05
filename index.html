@@ -64,6 +64,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; j
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); transition: background 0.3s; }
 .status-dot.speaking { background: var(--accent); animation: blink 0.8s ease-in-out infinite; }
 @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+.mute-btn { font-family: var(--sans); font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--paper-warm); border: 0.5px solid var(--rule); color: var(--ink-soft); cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em; }
+.mute-btn:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.mute-btn.muted { background: var(--accent); color: var(--paper); border-color: var(--accent); }
 .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--paper-warm); border: 0.5px solid var(--rule); color: var(--ink-soft); margin-bottom: 4px; }
 .badge-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
 .badge-row .badge { margin-bottom: 0; }
@@ -208,6 +211,7 @@ footer { border-top: 0.5px solid var(--rule); padding: 16px 48px; display: flex;
       <div class="badge-row">
         <div class="badge">🌍 <span data-i18n="badge.lang">5 languages</span></div>
         <div class="badge">📍 Paris</div>
+        <button class="mute-btn" id="muteBtn" onclick="toggleMute()">🔊 Mute</button>
       </div>
     </div>
 
@@ -576,7 +580,7 @@ async function askAvatar(question) {
         question,
         lang: currentLang,
         questionCount,
-        muted: false
+        muted: isMuted
       })
     });
 
@@ -585,13 +589,26 @@ async function askAvatar(question) {
 
     document.getElementById('typing').classList.remove('visible');
     renderMessage('assistant', answer);
-    speak(answer);
+    if (!isMuted) speak(answer);
   } catch {
     document.getElementById('typing').classList.remove('visible');
     renderMessage('assistant', i18n[currentLang]['fallback']);
   }
 
   document.getElementById('sendBtn').disabled = false;
+}
+
+// ─── Mute ─────────────────────────────────────────────────────────────────────
+let isMuted = false;
+
+function toggleMute() {
+  isMuted = !isMuted;
+  const btn = document.getElementById('muteBtn');
+  if (btn) {
+    btn.textContent = isMuted ? '🔇 Muted' : '🔊 Mute';
+    btn.classList.toggle('muted', isMuted);
+  }
+  if (isMuted) stopSpeaking();
 }
 
 // ─── Send ──────────────────────────────────────────────────────────────────
