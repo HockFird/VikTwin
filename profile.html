@@ -59,9 +59,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; j
 .profile-title-text { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 14px; }
 .profile-tagline { font-size: 14px; color: var(--ink-mid); line-height: 1.7; max-width: 460px; }
 .profile-stats { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
-.pstat { background: var(--paper-warm); border: 0.5px solid var(--rule); border-radius: 4px; padding: 10px 16px; min-width: 80px; }
-.pstat-num { font-family: var(--serif); font-size: 24px; font-weight: 400; line-height: 1; margin-bottom: 3px; }
-.pstat-label { font-size: 9px; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+.pstat { background: var(--accent); border: 0.5px solid var(--accent-dark); border-radius: 4px; padding: 10px 16px; min-width: 80px; }
+.pstat-num { font-family: var(--serif); font-size: 24px; font-weight: 400; line-height: 1; margin-bottom: 3px; color: #fff; }
+.pstat-label { font-size: 9px; color: rgba(255,255,255,0.8); letter-spacing: 0.06em; text-transform: uppercase; }
 
 .section-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; display: flex; align-items: center; gap: 16px; }
 .section-label::after { content: ''; flex: 1; height: 0.5px; background: var(--rule); }
@@ -185,7 +185,7 @@ footer { border-top: 0.5px solid var(--rule); padding: 24px 48px; display: flex;
   <div class="profile-header">
     <img class="profile-photo" src="photo.png" alt="Viktoriya Karpenko">
     <div>
-      <h1 class="profile-name">Viktoriya <em>Karpenko</em></h1>
+      <h1 class="profile-name"><span style="color:var(--accent)">Viktoriya</span> <em>Karpenko</em></h1>
       <div class="profile-title-text" data-i18n="profile.title">Enterprise Account Executive · Salesforce · Paris</div>
       <p class="profile-tagline" data-i18n="profile.tagline">I lead with curiosity, operate with structure, and close with conviction. Born in Ukraine, built internationally — I sell the way I think: across cultures, industries, and C-suites.</p>
       <div class="profile-stats">
@@ -305,6 +305,7 @@ footer { border-top: 0.5px solid var(--rule); padding: 24px 48px; display: flex;
           <span class="tag">Account Planning</span>
           <span class="tag">Land & Expand</span>
           <span class="tag">Pipeline Generation</span>
+          <span class="tag">Vente intentionnelle</span>
         </div>
       </div>
       <div class="skill-card">
