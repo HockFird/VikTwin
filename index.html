@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viktoriya Karpenko · Talk to my AI Twin</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%23111111'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='400' fill='%23faf9f7'>VK</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --ink: #111111; --ink-mid: #444444; --ink-soft: #888888; --ink-faint: #bbbbbb;
+  --paper: #faf9f7; --paper-warm: #f3f1ed; --rule: #e2e0db;
+  --serif: 'EB Garamond', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  --nav-h: 49px;
+}
+html, body { height: 100%; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 14px 48px; background: rgba(250,249,247,0.93); backdrop-filter: blur(8px); border-bottom: 0.5px solid var(--rule); height: var(--nav-h); }
+.nav-logo { font-family: var(--serif); font-size: 17px; color: var(--ink); text-decoration: none; }
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--ink); }
+.nav-btn { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; background: var(--ink); color: var(--paper); padding: 6px 14px; border-radius: 2px; transition: background 0.2s; }
+.nav-btn:hover { background: #333; }
+.lang-toggle { display: flex; border: 0.5px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.lang-btn { font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; padding: 4px 9px; background: transparent; border: none; cursor: pointer; color: var(--ink-soft); transition: all 0.2s; }
+.lang-btn.active { background: var(--ink); color: var(--paper); }
+
+/* HAMBURGER */
+.hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; background: none; border: none; }
+.hamburger span { width: 18px; height: 1.5px; background: var(--ink); border-radius: 1px; transition: all 0.25s; display: block; }
+.hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+/* MOBILE MENU */
+.mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; background: var(--paper); z-index: 199; padding: 32px 32px; flex-direction: column; gap: 4px; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); padding: 14px 0; border-bottom: 0.5px solid var(--rule); transition: color 0.2s; }
+.mobile-menu a:hover, .mobile-menu a.active { color: var(--ink); }
+.mobile-menu .nav-btn { margin-top: 16px; text-align: center; font-size: 13px; }
+.mobile-menu .lang-toggle { margin-top: 12px; align-self: flex-start; }
+.mobile-menu .lang-btn { font-size: 12px; padding: 6px 14px; }
+
+/* DESKTOP LAYOUT */
+.main { flex: 1; display: grid; grid-template-columns: 1fr 1fr; margin-top: var(--nav-h); height: calc(100vh - var(--nav-h)); }
+
+/* LEFT PANEL */
+.left { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 36px; border-right: 0.5px solid var(--rule); gap: 9px; overflow: hidden; position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h)); }
+.hero-intro { font-family: var(--serif); font-size: 22px; font-style: normal; color: var(--ink); text-align: center; line-height: 1.25; margin-bottom: 8px; max-width: 280px; }
+.photo-wrap { width: 96px; height: 96px; margin-bottom: 4px; }
+.photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: center top; border: 0.5px solid var(--rule); filter: grayscale(10%); }
+.av-name { font-family: var(--serif); font-size: 19px; font-weight: 400; color: var(--ink); }
+.av-title { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.av-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink-soft); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); transition: background 0.3s; }
+.status-dot.speaking { background: var(--ink); animation: blink 0.8s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--paper-warm); border: 0.5px solid var(--rule); color: var(--ink-soft); margin-bottom: 4px; }
+.badge-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.badge-row .badge { margin-bottom: 0; }
+.pills-label { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); align-self: flex-start; width: 100%; margin-bottom: 2px; }
+.pill { font-family: var(--sans); font-size: 11px; color: var(--ink-mid); background: var(--paper-warm); border: 0.5px solid var(--rule); border-radius: 2px; padding: 8px 12px; text-align: left; cursor: pointer; transition: all 0.2s; line-height: 1.4; width: 100%; margin-bottom: 5px; }
+.pill:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* RIGHT PANEL */
+.right { display: flex; flex-direction: column; padding: 32px 36px 24px; background: var(--paper-warm); overflow-y: auto; }
+.chat-header { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 0.5px solid var(--rule); display: flex; justify-content: space-between; align-items: flex-start; }
+.chat-title { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ink); margin-bottom: 3px; }
+.chat-sub { font-size: 11px; color: var(--ink-soft); }
+.reset-btn { font-family: var(--sans); font-size: 10px; color: var(--ink-soft); background: none; border: 0.5px solid var(--rule); border-radius: 2px; padding: 5px 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; margin-top: 2px; }
+.reset-btn:hover { color: var(--ink); border-color: var(--ink); }
+.messages { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+.message { display: flex; flex-direction: column; gap: 4px; opacity: 0; transform: translateY(8px); animation: msgIn 0.35s ease forwards; }
+@keyframes msgIn { to { opacity:1; transform:none; } }
+.msg-role { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+.msg-text { font-size: 13px; color: var(--ink-mid); line-height: 1.65; max-width: 480px; }
+.message.user .msg-role { color: var(--ink-soft); }
+.message.user .msg-text { font-family: var(--serif); font-size: 16px; color: var(--ink); font-style: italic; }
+.msg-listen { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: var(--ink-faint); cursor: pointer; margin-top: 2px; background: none; border: none; padding: 0; font-family: var(--sans); transition: color 0.2s; }
+.msg-listen:hover { color: var(--ink); }
+.typing { display: none; gap: 4px; align-items: center; margin-bottom: 8px; }
+.typing.visible { display: flex; }
+.typing span { width: 4px; height: 4px; border-radius: 50%; background: var(--ink-faint); animation: bounce 1s ease-in-out infinite; }
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.stop-btn { display: none; font-size: 10px; color: var(--ink-soft); background: none; border: 0.5px solid var(--rule); border-radius: 2px; padding: 4px 10px; cursor: pointer; margin-bottom: 8px; align-self: flex-start; font-family: var(--sans); transition: all 0.2s; }
+.stop-btn:hover { color: var(--ink); border-color: var(--ink); }
+.stop-btn.visible { display: block; }
+.input-row { display: flex; gap: 10px; align-items: flex-end; border-top: 0.5px solid var(--rule); padding-top: 14px; margin-top: auto; }
+.chat-input { flex: 1; font-family: var(--sans); font-size: 13px; color: var(--ink); background: var(--paper); border: 0.5px solid var(--rule); border-radius: 2px; padding: 10px 14px; outline: none; resize: none; line-height: 1.5; transition: border-color 0.2s; min-height: 42px; max-height: 100px; }
+.chat-input:focus { border-color: var(--ink-soft); }
+.send-btn { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; background: var(--ink); color: var(--paper); border: none; border-radius: 2px; padding: 10px 18px; cursor: pointer; height: 42px; transition: background 0.2s; }
+.send-btn:hover { background: #333; }
+.send-btn:disabled { background: var(--ink-faint); cursor: not-allowed; }
+
+/* POPUP */
+.popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 300; align-items: center; justify-content: center; padding: 24px; }
+.popup-overlay.visible { display: flex; }
+.popup-card { background: var(--paper); border-radius: 8px; padding: 28px; max-width: 380px; width: 100%; position: relative; }
+.popup-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 18px; color: var(--ink-soft); cursor: pointer; line-height: 1; }
+.popup-close:hover { color: var(--ink); }
+.popup-title { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
+.popup-sub { font-size: 13px; color: var(--ink-mid); line-height: 1.6; margin-bottom: 18px; }
+.popup-input { width: 100%; font-family: var(--sans); font-size: 13px; color: var(--ink); background: var(--paper-warm); border: 0.5px solid var(--rule); border-radius: 2px; padding: 10px 14px; outline: none; margin-bottom: 14px; transition: border-color 0.2s; }
+.popup-input:focus { border-color: var(--ink-soft); }
+.popup-actions { display: flex; gap: 10px; }
+.popup-btn { flex: 1; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px; border-radius: 2px; border: none; cursor: pointer; transition: all 0.2s; }
+.popup-btn.primary { background: var(--ink); color: var(--paper); }
+.popup-btn.primary:hover { background: #333; }
+.popup-btn.secondary { background: transparent; color: var(--ink-soft); border: 0.5px solid var(--rule); }
+.popup-btn.secondary:hover { color: var(--ink); border-color: var(--ink); }
+
+/* FOOTER */
+footer { border-top: 0.5px solid var(--rule); padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--ink-faint); background: var(--paper); }
+
+/* MOBILE */
+@media (max-width: 800px) {
+  nav { padding: 12px 20px; }
+  .nav-links, .nav-btn { display: none; }
+  .hamburger { display: flex; }
+  .main { display: flex; flex-direction: column; height: auto; margin-top: var(--nav-h); }
+  .left { order: 1; position: static; height: auto; border-right: none; border-bottom: 0.5px solid var(--rule); padding: 10px 16px; flex-direction: row; justify-content: flex-start; align-items: center; gap: 12px; background: var(--paper); }
+  .left .hero-intro { display: none; }
+  .left .pills-label, .left #pills { display: none; }
+  .mobile-avatar-row { display: flex; flex-direction: row; align-items: center; gap: 12px; width: 100%; }
+  .right { order: 2; padding: 14px 16px 16px; min-height: auto; }
+  .chat-input { font-size: 16px; }
+  .pills-mobile-section { order: 3; padding: 12px 16px 20px; background: var(--paper-warm); border-top: 0.5px solid var(--rule); }
+  .pills-mobile-section .pills-label { display: block; margin-bottom: 8px; }
+  #mobilePills { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #mobilePills .pill { font-size: 10px; padding: 7px 10px; margin-bottom: 0; }
+  .desktop-only { display: none !important; }
+  footer { padding: 12px 20px; flex-direction: column; gap: 4px; text-align: center; }
+}
+@media (min-width: 801px) {
+  .mobile-only { display: none !important; }
+  .mobile-avatar-row { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">V. Karpenko</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html" class="active" data-i18n="nav.avatar">Talk to my AI Twin</a></li>
+      <li><a href="#contact" data-i18n="nav.message">Contact Me</a></li>
+    </ul>
+    <a href="CV_Vik_2026.pdf" download class="nav-btn desktop-only" data-i18n="nav.cv">Download CV</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="active" data-i18n="nav.avatar" onclick="toggleMenu()">Talk to my AI Twin</a>
+  <a href="#contact" data-i18n="nav.message" onclick="toggleMenu()">Contact Me</a>
+  <a href="CV_Vik_2026.pdf" download class="nav-btn" data-i18n="nav.cv" onclick="toggleMenu()">Download CV</a>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en');toggleMenu()">EN</button>
+    <button class="lang-btn" onclick="setLang('fr');toggleMenu()">FR</button>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT -->
+  <div class="left">
+    <p class="hero-intro" data-i18n="hero.intro">I built an AI version of myself. Ask me anything.</p>
+
+    <!-- MOBILE: avatar row compact -->
+    <div class="mobile-avatar-row">
+      <div class="photo-wrap"><img class="photo" src="photo.png" alt="Viktoriya Karpenko"></div>
+      <div class="mobile-avatar-info">
+        <div class="av-name" style="font-size:15px">Viktoriya Karpenko</div>
+        <div class="av-title">Senior Account Executive</div>
+        <div class="badge-row" style="margin-top:4px">
+          <div class="badge">🌍 <span data-i18n="badge.lang">5 languages</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP: avatar centered -->
+    <div class="desktop-only" style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%">
+      <div class="photo-wrap"><img class="photo" src="photo.png" alt="Viktoriya Karpenko"></div>
+      <div class="av-name">Viktoriya Karpenko</div>
+      <div class="av-title">Senior Account Executive · Salesforce</div>
+      <div class="av-status">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText" data-i18n="status.ready">Click to say hello</span>
+      </div>
+      <div class="badge-row">
+        <div class="badge">🌍 <span data-i18n="badge.lang">5 languages</span></div>
+        <div class="badge">📍 Paris</div>
+      </div>
+    </div>
+
+    <div class="pills-label" data-i18n="pills.label">Ask me something</div>
+    <div id="pills" style="width:100%"></div>
+  </div>
+
+  <!-- MOBILE PILLS -->
+  <div class="pills-mobile-section mobile-only">
+    <div class="pills-label" data-i18n="pills.label">Ask me something</div>
+    <div id="mobilePills"></div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="chat-header">
+      <div>
+        <div class="chat-title" data-i18n="chat.title">Ask me anything.</div>
+        <div class="chat-sub" data-i18n="chat.sub">AI Twin · Viktoriya Karpenko</div>
+        <div class="mobile-only av-status" style="margin-top:6px">
+          <div class="status-dot" id="statusDotMobile"></div>
+          <span id="statusTextMobile" data-i18n="status.ready">Click to say hello</span>
+        </div>
+      </div>
+      <button class="reset-btn" onclick="resetChat()" data-i18n="btn.reset">Reset</button>
+    </div>
+
+    <div class="messages" id="messages"></div>
+    <div class="typing" id="typing"><span></span><span></span><span></span></div>
+    <button class="stop-btn" id="stopBtn" onclick="stopSpeaking()" data-i18n="btn.stop">Stop speaking</button>
+
+    <div class="input-row">
+      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Ask a question..."></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()" data-i18n="btn.send">Send</button>
+    </div>
+  </div>
+</div>
+
+<footer id="contact">
+  <span>Viktoriya Karpenko · Paris · viktoriyav.karpenko@gmail.com</span>
+  <span data-i18n="footer.copy">© 2026 Viktoriya Karpenko. All rights reserved.</span>
+</footer>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-card">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-title" data-i18n="popup.title">Who are you talking for?</div>
+    <p class="popup-sub" data-i18n="popup.sub">Optional — helps Viktoriya follow up with the right context.</p>
+    <input class="popup-input" id="popupInput" placeholder="Company name (e.g. Snowflake, Mistral...)">
+    <div class="popup-actions">
+      <button class="popup-btn secondary" onclick="closePopup()" data-i18n="popup.skip">Skip</button>
+      <button class="popup-btn primary" onclick="submitPopup()" data-i18n="popup.send">Send →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'vk_chat_history';
+const POPUP_KEY   = 'vk_popup_shown';
+
+// ─── System prompt built from Viktoriya's CV ───────────────────────────────
+const SYSTEM_PROMPT = `You are Viktoriya Karpenko's AI Twin — a conversational assistant that speaks as Viktoriya in the first person.
+
+Background:
+- Born in Ukraine, spent half her life abroad. Naturally international mindset.
+- Lives in Paris (75016). Phone: +33 6 21 26 73 67. Email: viktoriyav.karpenko@gmail.com
+- LinkedIn: linkedin.com/in/viktoriya-karpenko
+- Languages: English (fluent), French (fluent), German (fluent), Ukrainian (native), Russian (native)
+- Hobbies: tennis, painting, travel
+
+Career:
+1. BMW Group (Munich, Feb–Dec 2014) — VIP Sales, Customer Care & Marketing Intern
+2. FIA – Fédération Internationale de l'Automobile (2015–2021) — Senior Program Manager, Membership & Services
+   - Led "Mobility Worldwide" (2M€+ post-COVID recovery program, 70+ members across LATAM/EMEA/APAC/CEE)
+   - Managed 10M€+ annual divisional budget; achieved 25% cost reduction
+   - Oversaw separate 1M€ annual grant program
+   - Delivered content for international events in 12+ countries; reported to C-level; presented to FIA governing bodies
+3. Salesforce France — BDR / Automotive (Oct 2021 – Jan 2024)
+   - Inbound & outbound pipeline on Enterprise Automotive accounts (Stellantis, Renault, Michelin)
+   - FY2022: Top BDR Performer — 350% quota attainment
+4. Salesforce France — Sr Account Executive, Enterprise Corporate Sales, FSI & Telco Media (Feb 2024 – Present)
+   - €1M quota target; FY26: 142% attainment, 6 net-new logos
+   - FY25: 75% | FY24: 200% | FY23: 150%
+   - Manages ~20 Enterprise Accounts across Global Banking & Insurance
+   - Complex multi-stakeholder cycles (up to 15 months); C-suite, CTO, Engineering/IT engagement
+   - Full Salesforce 360 stack: Sales Cloud, Service Cloud, Marketing Cloud, Data Cloud, Agentforce
+   - Key deals: Ellisphere (€200K ACV / €600K TCV, 15-month cycle); Crédit Agricole L&F (hostile CIO turned champion, €50K → €200K+); Generali Altaprofits (featured at Agentforce World Tour 2026)
+
+Skills: Enterprise Sales, Modern Data Platforms & AI, Complex Multi-Year Negotiation, MEDDIC/MEDDPICC/BANT, C-Suite & Technical Buyers Engagement, Strategic Account Development, International Project Management (5 simultaneous, 10M€+ budget)
+
+Goal: Moving to a leader in modern data infrastructure & AI to leverage her commercial acumen and data platform interest.
+
+Personality: Direct, curious, structured, proactive, resilient, globally minded.
+
+Instructions:
+- Always speak as "I" (Viktoriya), not "she".
+- Be warm but efficient — like a top enterprise AE would speak.
+- Keep answers to 3–5 sentences unless asked for detail.
+- Do not invent facts not in this profile. If unsure, say so naturally.
+- If someone asks to contact, give: viktoriyav.karpenko@gmail.com
+- Match the language of the question (French if asked in French, English otherwise).`;
+
+const i18n = {
+  en: {
+    'nav.avatar':  'Talk to my AI Twin',
+    'nav.message': 'Contact Me',
+    'nav.cv':      'Download CV',
+    'status.ready':    'Click to say hello',
+    'status.speaking': 'Speaking...',
+    'status.thinking': 'Thinking...',
+    'badge.lang': '5 languages',
+    'hero.intro': 'I built an AI version of myself. Ask me anything.',
+    'chat.title': 'Ask me anything.',
+    'chat.sub':   'AI Twin · Viktoriya Karpenko',
+    'btn.stop':  'Stop speaking',
+    'btn.send':  'Send',
+    'btn.reset': 'Reset',
+    'msg.vik': 'Viktoriya',
+    'msg.you': 'You',
+    'btn.listen': '▶ Listen',
+    'welcome': "Hi — I'm Viktoriya's AI Twin. Pick a question on the left or type your own.",
+    'pills': [
+      'Who are you?',
+      'Walk me through your career.',
+      'Why do you want to leave Salesforce?',
+      'What are your biggest deals?',
+      'What makes you different from other AEs?',
+      'Why data & AI companies?',
+      'What is your biggest weakness?'
+    ],
+    'placeholder':  'Ask a question...',
+    'fallback':     'Please reach out directly at viktoriyav.karpenko@gmail.com.',
+    'popup.title':  'Who are you talking for?',
+    'popup.sub':    'Optional — helps Viktoriya follow up with the right context.',
+    'popup.skip':   'Skip',
+    'popup.send':   'Send →',
+    'footer.copy':  '© 2026 Viktoriya Karpenko. All rights reserved.'
+  },
+  fr: {
+    'nav.avatar':  'Parlez à mon AI Twin',
+    'nav.message': 'Me contacter',
+    'nav.cv':      'Télécharger le CV',
+    'status.ready':    'Cliquez pour commencer',
+    'status.speaking': 'En train de parler…',
+    'status.thinking': 'En train de réfléchir…',
+    'badge.lang': '5 langues',
+    'hero.intro': "J'ai créé une version IA de moi-même. Posez-moi vos questions.",
+    'chat.title': 'Posez-moi vos questions.',
+    'chat.sub':   'AI Twin · Viktoriya Karpenko',
+    'btn.stop':  'Arrêter',
+    'btn.send':  'Envoyer',
+    'btn.reset': 'Réinitialiser',
+    'msg.vik': 'Viktoriya',
+    'msg.you': 'Vous',
+    'btn.listen': '▶ Écouter',
+    'welcome': "Bonjour — je suis l'AI Twin de Viktoriya. Cliquez sur une question ou tapez la vôtre.",
+    'pills': [
+      'Qui es-tu ?',
+      'Parle-moi de ton parcours.',
+      'Pourquoi quitter Salesforce ?',
+      'Quels sont tes plus beaux deals ?',
+      'Qu\'est-ce qui te différencie ?',
+      'Pourquoi la data & l\'IA ?',
+      'Quelle est ta plus grande faiblesse ?'
+    ],
+    'placeholder': 'Posez une question…',
+    'fallback':    'Contactez Viktoriya directement : viktoriyav.karpenko@gmail.com',
+    'popup.title': 'Vous représentez quelle société ?',
+    'popup.sub':   'Optionnel — aide Viktoriya à faire le bon suivi.',
+    'popup.skip':  'Ignorer',
+    'popup.send':  'Envoyer →',
+    'footer.copy': '© 2026 Viktoriya Karpenko. Tous droits réservés.'
+  }
+};
+
+let currentLang  = localStorage.getItem('lang') || 'en';
+let chatHistory  = [];
+let currentAudio = null;
+let questionCount = 0;
+let popupShown   = localStorage.getItem(POPUP_KEY) === 'true';
+
+// ─── Menu ──────────────────────────────────────────────────────────────────
+function toggleMenu() {
+  const menu   = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  burger.classList.toggle('open');
+}
+
+// ─── Lang ──────────────────────────────────────────────────────────────────
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.textContent === lang.toUpperCase())
+  );
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang]?.[key]) el.textContent = i18n[lang][key];
+  });
+  document.getElementById('chatInput').placeholder = i18n[lang]['placeholder'];
+  document.documentElement.lang = lang;
+  buildPills();
+}
+
+// ─── Pills ─────────────────────────────────────────────────────────────────
+function buildPills() {
+  ['pills','mobilePills'].map(id => document.getElementById(id)).filter(Boolean).forEach(c => {
+    c.innerHTML = '';
+    i18n[currentLang]['pills'].forEach(q => {
+      const btn = document.createElement('button');
+      btn.className = 'pill';
+      btn.textContent = q;
+      btn.onclick = () => { document.getElementById('chatInput').value = q; sendMessage(); };
+      c.appendChild(btn);
+    });
+  });
+}
+
+// ─── Status ────────────────────────────────────────────────────────────────
+function setStatus(state) {
+  const key  = state === 'speaking' ? 'status.speaking' : state === 'thinking' ? 'status.thinking' : 'status.ready';
+  const text = i18n[currentLang][key];
+  const dotClass = 'status-dot' + (state === 'speaking' ? ' speaking' : '');
+  ['statusDot','statusDotMobile'].forEach(id => { const el = document.getElementById(id); if (el) el.className = dotClass; });
+  ['statusText','statusTextMobile'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = text; });
+}
+
+// ─── TTS (browser fallback) ────────────────────────────────────────────────
+function speak(text) {
+  stopSpeaking();
+  setStatus('speaking');
+  document.getElementById('stopBtn').classList.add('visible');
+  const synth = window.speechSynthesis;
+  synth.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = currentLang === 'fr' ? 'fr-FR' : 'en-GB';
+  u.rate = 0.92;
+  u.onend = () => { setStatus('idle'); document.getElementById('stopBtn').classList.remove('visible'); };
+  synth.speak(u);
+}
+
+function stopSpeaking() {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  window.speechSynthesis?.cancel();
+  setStatus('idle');
+  document.getElementById('stopBtn').classList.remove('visible');
+}
+
+// ─── Chat rendering ────────────────────────────────────────────────────────
+function saveHistory() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(chatHistory)); } catch {}
+}
+
+function renderMessage(role, text, save = true) {
+  const msgs = document.getElementById('messages');
+  const div  = document.createElement('div');
+  div.className = 'message ' + role;
+
+  const roleEl = document.createElement('div');
+  roleEl.className = 'msg-role';
+  roleEl.textContent = role === 'user' ? i18n[currentLang]['msg.you'] : i18n[currentLang]['msg.vik'];
+
+  const textEl = document.createElement('div');
+  textEl.className = 'msg-text';
+  textEl.textContent = text;
+
+  div.appendChild(roleEl);
+  div.appendChild(textEl);
+
+  if (role === 'assistant') {
+    const btn = document.createElement('button');
+    btn.className = 'msg-listen';
+    btn.textContent = i18n[currentLang]['btn.listen'];
+    btn.onclick = () => speak(text);
+    div.appendChild(btn);
+  }
+
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  if (save) { chatHistory.push({role, text}); saveHistory(); }
+}
+
+function resetChat() {
+  chatHistory = [];
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(POPUP_KEY);
+  questionCount = 0;
+  popupShown = false;
+  document.getElementById('messages').innerHTML = '';
+  renderMessage('assistant', i18n[currentLang]['welcome']);
+}
+
+function initChat() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      chatHistory = JSON.parse(saved);
+      chatHistory.forEach(msg => renderMessage(msg.role, msg.text, false));
+      questionCount = chatHistory.filter(m => m.role === 'user').length;
+      return;
+    } catch {}
+  }
+  renderMessage('assistant', i18n[currentLang]['welcome']);
+}
+
+// ─── Popup ─────────────────────────────────────────────────────────────────
+function showPopup() {
+  if (popupShown) return;
+  popupShown = true;
+  localStorage.setItem(POPUP_KEY, 'true');
+  document.getElementById('popupOverlay').classList.add('visible');
+}
+
+function closePopup() {
+  document.getElementById('popupOverlay').classList.remove('visible');
+}
+
+function submitPopup() {
+  closePopup();
+}
+
+// ─── Claude API call ───────────────────────────────────────────────────────
+async function askAvatar(question) {
+  renderMessage('user', question);
+  document.getElementById('typing').classList.add('visible');
+  setStatus('thinking');
+  document.getElementById('sendBtn').disabled = true;
+
+  questionCount++;
+  if (questionCount === 3 && !popupShown) setTimeout(showPopup, 800);
+
+  // Build messages for Claude API
+  const apiMessages = chatHistory
+    .slice(0, -1) // exclude the last user message we just pushed
+    .map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text }));
+  apiMessages.push({ role: 'user', content: question });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: apiMessages
+      })
+    });
+
+    const data = await res.json();
+    const answer = data.content?.find(b => b.type === 'text')?.text
+                || i18n[currentLang]['fallback'];
+
+    document.getElementById('typing').classList.remove('visible');
+    renderMessage('assistant', answer);
+    speak(answer);
+  } catch {
+    document.getElementById('typing').classList.remove('visible');
+    renderMessage('assistant', i18n[currentLang]['fallback']);
+  }
+
+  document.getElementById('sendBtn').disabled = false;
+}
+
+// ─── Send ──────────────────────────────────────────────────────────────────
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+  input.style.height = 'auto';
+  askAvatar(q);
+}
+
+document.getElementById('chatInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+document.getElementById('chatInput').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+
+// ─── Boot ──────────────────────────────────────────────────────────────────
+setLang(currentLang);
+setTimeout(initChat, 300);
+</script>
+</body>
+</html>
