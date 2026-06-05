@@ -175,7 +175,29 @@ Sonne comme une AE Enterprise sharp et chaleureuse — directe, parfois autodér
     const data = await anthropicRes.json();
     const answer = data.content?.[0]?.text || '';
 
-    return new Response(JSON.stringify({ answer, audio: null }), {
+    const ELEVEN_API_KEY = context.env.ELEVEN_API_KEY;
+    const VOICE_ID = 'REMPLACER_PAR_VOICE_ID_VIKTORIYA';
+
+    let audioBase64 = null;
+    if (!muted && ELEVEN_API_KEY) {
+      try {
+        const elevenRes = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+          method: 'POST',
+          headers: { 'xi-api-key': ELEVEN_API_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: answer,
+            model_id: 'eleven_multilingual_v2',
+            voice_settings: { stability: 0.5, similarity_boost: 0.85, speed: 0.95 }
+          })
+        });
+        if (elevenRes.ok) {
+          const buffer = await elevenRes.arrayBuffer();
+          audioBase64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+        }
+      } catch {} 
+    }
+
+    return new Response(JSON.stringify({ answer, audio: audioBase64 }), {
       headers: { 'Content-Type': 'application/json' }
     });
 

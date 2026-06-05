@@ -344,6 +344,7 @@ VOICE & INSTRUCTIONS
 const i18n = {
   en: {
     'nav.avatar':  'Talk to my AI Twin',
+    'nav.profile': 'My Profile',
     'nav.message': 'Contact Me',
     'nav.cv':      'Download CV',
     'status.ready':    'Click to say hello',
@@ -379,6 +380,7 @@ const i18n = {
   },
   fr: {
     'nav.avatar':  'Parlez à mon AI Twin',
+    'nav.profile': 'Mon Profil',
     'nav.message': 'Me contacter',
     'nav.cv':      'Télécharger le CV',
     'status.ready':    'Cliquez pour commencer',
@@ -589,7 +591,24 @@ async function askAvatar(question) {
 
     document.getElementById('typing').classList.remove('visible');
     renderMessage('assistant', answer);
-    if (!isMuted) speak(answer);
+
+    if (!isMuted) {
+      if (data.audio) {
+        // Play ElevenLabs audio
+        const binary = atob(data.audio);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        const blob = new Blob([bytes], { type: 'audio/mpeg' });
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        setStatus('speaking');
+        document.getElementById('stopBtn').classList.add('visible');
+        audio.onended = () => { setStatus('idle'); document.getElementById('stopBtn').classList.remove('visible'); URL.revokeObjectURL(url); };
+        audio.play();
+      } else {
+        speak(answer);
+      }
+    }
   } catch {
     document.getElementById('typing').classList.remove('visible');
     renderMessage('assistant', i18n[currentLang]['fallback']);
