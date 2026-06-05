@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viktoriya Karpenko · My Profile</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%23111111'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='400' fill='%23faf9f7'>VK</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --ink: #111111; --ink-mid: #444444; --ink-soft: #888888; --ink-faint: #bbbbbb;
+  --paper: #faf9f7; --paper-warm: #f3f1ed; --rule: #e2e0db;
+  --serif: 'EB Garamond', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  --nav-h: 49px; --subnav-h: 40px;
+  --accent: #FF6547;
+  --accent-dark: #d94830;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 14px 48px; background: rgba(250,249,247,0.93); backdrop-filter: blur(8px); border-bottom: 0.5px solid var(--rule); height: var(--nav-h); }
+.nav-logo { font-family: var(--serif); font-size: 17px; color: var(--ink); text-decoration: none; }
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); } .nav-links a.active { color: var(--accent); border-bottom: 1.5px solid var(--accent); }
+.nav-btn { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; background: var(--accent); color: var(--paper); padding: 6px 14px; border-radius: 2px; transition: background 0.2s; }
+.nav-btn:hover { background: var(--accent-dark); }
+.lang-toggle { display: flex; border: 0.5px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.lang-btn { font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; padding: 4px 9px; background: transparent; border: none; cursor: pointer; color: var(--ink-soft); transition: all 0.2s; }
+.lang-btn.active { background: var(--accent); color: var(--paper); }
+.hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; background: none; border: none; }
+.hamburger span { width: 18px; height: 1.5px; background: var(--ink); border-radius: 1px; transition: all 0.25s; display: block; }
+.hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; background: var(--paper); z-index: 199; padding: 32px; flex-direction: column; gap: 4px; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); padding: 14px 0; border-bottom: 0.5px solid var(--rule); }
+.mobile-menu a.active { color: var(--ink); }
+.mobile-menu .nav-btn { margin-top: 16px; text-align: center; font-size: 13px; }
+.mobile-menu .lang-toggle { margin-top: 12px; }
+.mobile-menu .lang-btn { font-size: 12px; padding: 6px 14px; }
+
+.subnav { position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 99; display: flex; align-items: center; padding: 0 48px; background: rgba(250,249,247,0.93); backdrop-filter: blur(8px); border-bottom: 0.5px solid var(--rule); height: var(--subnav-h); }
+.subnav a { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); padding: 0 0 2px; margin-right: 28px; border-bottom: 1.5px solid transparent; transition: all 0.2s; line-height: var(--subnav-h); }
+.subnav a:hover { color: var(--ink); }
+.subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.page { max-width: 900px; margin: 0 auto; padding: calc(var(--nav-h) + var(--subnav-h) + 56px) 48px 80px; }
+
+.profile-header { display: flex; align-items: center; gap: 32px; margin-bottom: 56px; padding-bottom: 40px; border-bottom: 0.5px solid var(--rule); }
+.profile-photo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; object-position: center top; border: 0.5px solid var(--rule); filter: grayscale(10%); flex-shrink: 0; }
+.profile-name { font-family: var(--serif); font-size: 38px; font-weight: 400; line-height: 1.05; margin-bottom: 6px; }
+.profile-name em { font-style: italic; color: var(--ink-mid); }
+.profile-title-text { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 14px; }
+.profile-tagline { font-size: 14px; color: var(--ink-mid); line-height: 1.7; max-width: 460px; }
+.profile-stats { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+.pstat { background: var(--paper-warm); border: 0.5px solid var(--rule); border-radius: 4px; padding: 10px 16px; min-width: 80px; }
+.pstat-num { font-family: var(--serif); font-size: 24px; font-weight: 400; line-height: 1; margin-bottom: 3px; }
+.pstat-label { font-size: 9px; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.section-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; display: flex; align-items: center; gap: 16px; }
+.section-label::after { content: ''; flex: 1; height: 0.5px; background: var(--rule); }
+.section { margin-bottom: 56px; scroll-margin-top: calc(var(--nav-h) + var(--subnav-h) + 24px); }
+
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.about-body { font-size: 14px; color: var(--ink-mid); line-height: 1.8; }
+.about-body p + p { margin-top: 14px; }
+.detail-row { display: flex; gap: 16px; padding: 10px 0; border-bottom: 0.5px solid var(--rule); }
+.detail-row:last-child { border-bottom: none; }
+.detail-key { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); min-width: 80px; padding-top: 1px; }
+.detail-val { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+
+.exp-item { display: grid; grid-template-columns: 130px 1fr; gap: 40px; padding: 28px 0; border-bottom: 0.5px solid var(--rule); }
+.exp-item:first-child { padding-top: 0; }
+.exp-item:last-child { border-bottom: none; }
+.exp-period { font-size: 11px; color: var(--ink-soft); margin-bottom: 5px; line-height: 1.4; }
+.exp-co { font-size: 12px; font-weight: 500; color: var(--ink); }
+.exp-role { font-family: var(--serif); font-size: 19px; font-weight: 400; margin-bottom: 10px; line-height: 1.2; }
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.exp-bullets li { font-size: 13px; color: var(--ink-mid); padding-left: 14px; position: relative; line-height: 1.55; }
+.exp-bullets li::before { content: '\00B7'; position: absolute; left: 0; color: var(--ink-faint); font-size: 18px; line-height: 1.2; }
+.exp-kpi { display: inline-block; margin-top: 10px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 1px; }
+.exp-deals { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.deal-card { background: var(--paper-warm); border: 0.5px solid var(--rule); border-radius: 3px; padding: 12px 14px; }
+.deal-name { font-size: 11px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+.deal-desc { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--rule); border: 0.5px solid var(--rule); }
+.skill-card { background: var(--paper); padding: 24px 20px; }
+.skill-card-title { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.tag { font-size: 11px; color: var(--ink-mid); background: var(--paper-warm); padding: 4px 10px; border-radius: 2px; border: 0.5px solid var(--rule); }
+
+.lang-flags { display: flex; flex-direction: column; gap: 8px; }
+.lang-row { display: flex; align-items: center; gap: 10px; }
+.lang-name { font-size: 12px; color: var(--ink-mid); min-width: 80px; }
+.lang-level { font-size: 10px; color: var(--ink-faint); letter-spacing: 0.06em; text-transform: uppercase; }
+.lang-bar { flex: 1; height: 2px; background: var(--rule); border-radius: 1px; }
+.lang-fill { height: 100%; background: var(--accent); border-radius: 1px; }
+
+#contact { border-top: 0.5px solid var(--rule); padding-top: 56px; scroll-margin-top: calc(var(--nav-h) + var(--subnav-h) + 24px); }
+.contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.contact-headline { font-family: var(--serif); font-size: 34px; font-weight: 400; line-height: 1.15; margin-bottom: 12px; }
+.contact-sub { font-size: 13px; color: var(--ink-mid); line-height: 1.7; margin-bottom: 24px; }
+.contact-aside { display: flex; flex-direction: column; }
+.contact-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); font-size: 13px; padding: 14px 0; border-bottom: 0.5px solid var(--rule); transition: all 0.2s; }
+.contact-link:first-child { border-top: 0.5px solid var(--rule); }
+.contact-link:hover { color: var(--accent); }
+.contact-link:hover .link-arrow { transform: translateX(4px); }
+.link-label { flex: 1; }
+.link-value { font-size: 11px; color: var(--ink-mid); }
+.link-arrow { font-size: 16px; color: var(--ink-faint); transition: transform 0.2s; }
+
+footer { border-top: 0.5px solid var(--rule); padding: 24px 48px; display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-faint); }
+
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 720px) {
+  nav { padding: 12px 20px; }
+  .nav-links, .nav-btn { display: none; }
+  .hamburger { display: flex; }
+  .subnav { padding: 0 20px; overflow-x: auto; white-space: nowrap; }
+  .subnav a { margin-right: 20px; }
+  .page { padding: calc(var(--nav-h) + var(--subnav-h) + 28px) 20px 48px; }
+  .profile-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .profile-photo { width: 80px; height: 80px; }
+  .profile-stats { gap: 10px; }
+  .pstat { padding: 8px 12px; min-width: 60px; }
+  .pstat-num { font-size: 18px; }
+  .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 28px; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .exp-item { grid-template-columns: 1fr; gap: 4px; }
+  footer { padding: 16px 20px; flex-direction: column; gap: 4px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">V. Karpenko</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav.avatar">Talk to my AI Twin</a></li>
+      <li><a href="profile.html" class="active" data-i18n="nav.profile">My Profile</a></li>
+      <li><a href="#contact" data-i18n="nav.message">Contact Me</a></li>
+    </ul>
+    <a href="CV_Vik_2026.pdf" download class="nav-btn" data-i18n="nav.cv">Download CV</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" data-i18n="nav.avatar" onclick="toggleMenu()">Talk to my AI Twin</a>
+  <a href="profile.html" class="active" data-i18n="nav.profile" onclick="toggleMenu()">My Profile</a>
+  <a href="#contact" data-i18n="nav.message" onclick="toggleMenu()">Contact Me</a>
+  <a href="CV_Vik_2026.pdf" download class="nav-btn" data-i18n="nav.cv" onclick="toggleMenu()">Download CV</a>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en');toggleMenu()">EN</button>
+    <button class="lang-btn" onclick="setLang('fr');toggleMenu()">FR</button>
+  </div>
+</div>
+
+<div class="subnav">
+  <a href="#about" data-i18n="sub.about">About</a>
+  <a href="#experience" data-i18n="sub.exp">Experience</a>
+  <a href="#skills" data-i18n="sub.skills">Skills</a>
+  <a href="#contact" data-i18n="sub.contact">Contact</a>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="profile-header">
+    <img class="profile-photo" src="photo.png" alt="Viktoriya Karpenko">
+    <div>
+      <h1 class="profile-name">Viktoriya <em>Karpenko</em></h1>
+      <div class="profile-title-text" data-i18n="profile.title">Enterprise Account Executive · Salesforce · Paris</div>
+      <p class="profile-tagline" data-i18n="profile.tagline">I lead with curiosity, operate with structure, and close with conviction. Born in Ukraine, built internationally — I sell the way I think: across cultures, industries, and C-suites.</p>
+      <div class="profile-stats">
+        <div class="pstat"><div class="pstat-num">142%</div><div class="pstat-label" data-i18n="stat1">Quota FY26</div></div>
+        <div class="pstat"><div class="pstat-num">350%</div><div class="pstat-label" data-i18n="stat2">Top BDR FY22</div></div>
+        <div class="pstat"><div class="pstat-num">10M€+</div><div class="pstat-label" data-i18n="stat3">Budget géré</div></div>
+        <div class="pstat"><div class="pstat-num">5</div><div class="pstat-label" data-i18n="stat4">Langues</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section reveal" id="about">
+    <div class="section-label" data-i18n="about.label">About</div>
+    <div class="about-grid">
+      <div class="about-body">
+        <p data-i18n="about.p1">Born in Ukraine, I have spent half my life abroad — Germany, France, across LATAM, EMEA, APAC. That international exposure is not a line on a CV; it is how I think. I read rooms differently, adapt instinctively, and build trust across cultures faster than most.</p>
+        <p data-i18n="about.p2">I started at the FIA managing post-COVID recovery across 70+ national automobile clubs and a 10M€+ budget. It taught me what enterprise complexity really means — multiple stakeholders, political tensions, no obvious playbook. That foundation made Salesforce feel like a natural next step.</p>
+        <p data-i18n="about.p3">At Salesforce I went from Top BDR (350% in FY22) to Senior AE in FSI & Telco Media. I run 15-month cycles, convert hostile CIOs into champions, and build reference accounts. Now I want to bring that same energy to a leader in modern data infrastructure or AI.</p>
+        <p data-i18n="about.p4">Outside of work: tennis, painting, and building a life around travel, sport, and continuous curiosity. I believe the best salespeople are the ones who never stop learning.</p>
+      </div>
+      <div>
+        <div class="detail-row"><div class="detail-key" data-i18n="d.location">Location</div><div class="detail-val">Paris, 75016</div></div>
+        <div class="detail-row"><div class="detail-key" data-i18n="d.current">Current</div><div class="detail-val">AE, FSI & Telco Media · Salesforce France</div></div>
+        <div class="detail-row"><div class="detail-key" data-i18n="d.background">Background</div><div class="detail-val">Program Manager · BDR · AE</div></div>
+        <div class="detail-row"><div class="detail-key" data-i18n="d.languages">Languages</div><div class="detail-val">EN · FR · DE · UK · RU</div></div>
+        <div class="detail-row"><div class="detail-key">Email</div><div class="detail-val"><a href="mailto:viktoriyav.karpenko@gmail.com" style="color:var(--ink-mid);text-decoration:underline;text-underline-offset:3px">viktoriyav.karpenko@gmail.com</a></div></div>
+        <div class="detail-row"><div class="detail-key">LinkedIn</div><div class="detail-val"><a href="https://linkedin.com/in/viktoriya-karpenko" target="_blank" style="color:var(--ink-mid);text-decoration:underline;text-underline-offset:3px">linkedin.com/in/viktoriya-karpenko</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="section reveal" id="experience">
+    <div class="section-label" data-i18n="exp.label">Experience</div>
+
+    <div class="exp-item">
+      <div><div class="exp-period">Feb 2024 · Present</div><div class="exp-co">Salesforce France</div></div>
+      <div>
+        <div class="exp-role" data-i18n="exp1.role">Enterprise Account Executive — FSI & Telco Media</div>
+        <ul class="exp-bullets">
+          <li data-i18n="exp1.b1">Managing ~20 Enterprise Accounts across Global Banking, Insurance, Telco & Media</li>
+          <li data-i18n="exp1.b2">Complex multi-stakeholder cycles up to 15 months — C-suite, CTO, Engineering/IT leaders</li>
+          <li data-i18n="exp1.b3">Full Salesforce 360 stack: Sales Cloud, Service Cloud, Marketing Cloud, Data Cloud, Agentforce</li>
+          <li data-i18n="exp1.b4">Orchestrating cross-functional teams: SEs, Architects, PS, CSMs, ISV partners</li>
+          <li data-i18n="exp1.b5">6 net-new logos in FY26 across Banking, Insurance, Telco & Media</li>
+        </ul>
+        <div class="exp-deals">
+          <div class="deal-card">
+            <div class="deal-name">Ellisphere — €200K ACV / €600K TCV</div>
+            <div class="deal-desc">Replaced 3 disconnected databases ahead of a company merger. 15-month cycle, CEO & Business Line Director engagement.</div>
+          </div>
+          <div class="deal-card">
+            <div class="deal-name">Crédit Agricole Leasing & Factoring</div>
+            <div class="deal-desc">Converted a Salesforce-hostile CIO into an internal champion. €50K foothold grew into €200K+ multi-cloud expansion.</div>
+          </div>
+          <div class="deal-card">
+            <div class="deal-name">Generali Altaprofits</div>
+            <div class="deal-desc">Reference customer, featured at Agentforce World Tour 2026.</div>
+          </div>
+        </div>
+        <span class="exp-kpi">FY26: 142% · FY25: 75% · FY24: 200% · FY23: 150%</span>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div><div class="exp-period">Oct 2021 · Jan 2024</div><div class="exp-co">Salesforce France</div></div>
+      <div>
+        <div class="exp-role" data-i18n="exp2.role">Business Development Representative — Automotive</div>
+        <ul class="exp-bullets">
+          <li data-i18n="exp2.b1">Inbound & outbound pipeline on French Enterprise Automotive accounts</li>
+          <li data-i18n="exp2.b2">Strategic accounts: Stellantis, Renault, Michelin</li>
+          <li data-i18n="exp2.b3">Strong alignment with Global Account Managers on strategy and decision-making</li>
+        </ul>
+        <span class="exp-kpi">Top BDR Performer — 350% FY2022</span>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div><div class="exp-period">2015 · 2021</div><div class="exp-co">FIA</div></div>
+      <div>
+        <div class="exp-role" data-i18n="exp3.role">Senior Program Manager — Membership & Services</div>
+        <ul class="exp-bullets">
+          <li data-i18n="exp3.b1">Led "Mobility Worldwide" — 2M€+ post-COVID recovery program across 70+ FIA Members in LATAM, EMEA, APAC & CEE</li>
+          <li data-i18n="exp3.b2">Managed 10M€+ annual divisional budget; achieved 25% cost reduction</li>
+          <li data-i18n="exp3.b3">Oversaw separate 1M€ annual grant program simultaneously</li>
+          <li data-i18n="exp3.b4">Delivered content for international events across 12+ countries</li>
+          <li data-i18n="exp3.b5">Reported directly to C-level; presented at FIA governing bodies</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div><div class="exp-period">Feb · Dec 2014</div><div class="exp-co">BMW Group</div></div>
+      <div>
+        <div class="exp-role" data-i18n="exp4.role">VIP Sales, Customer Care & Marketing Intern</div>
+        <ul class="exp-bullets">
+          <li data-i18n="exp4.b1">Munich HQ — VIP client management, customer care and marketing support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section reveal" id="skills">
+    <div class="section-label" data-i18n="skills.label">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-title" data-i18n="sk.sales">Sales & Strategy</div>
+        <div class="skill-tags">
+          <span class="tag">Enterprise Sales</span>
+          <span class="tag">MEDDIC / MEDDPICC</span>
+          <span class="tag">BANT</span>
+          <span class="tag">Complex Negotiation</span>
+          <span class="tag">Multi-Year Deals</span>
+          <span class="tag">C-Suite Engagement</span>
+          <span class="tag">Account Planning</span>
+          <span class="tag">Land & Expand</span>
+          <span class="tag">Pipeline Generation</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title" data-i18n="sk.platform">Platform & Tech</div>
+        <div class="skill-tags">
+          <span class="tag">Salesforce 360</span>
+          <span class="tag">Sales Cloud</span>
+          <span class="tag">Service Cloud</span>
+          <span class="tag">Marketing Cloud</span>
+          <span class="tag">Data Cloud</span>
+          <span class="tag">Agentforce</span>
+          <span class="tag">Modern Data Platforms</span>
+          <span class="tag">AI / Agentic AI</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title" data-i18n="sk.languages">Languages</div>
+        <div class="lang-flags">
+          <div class="lang-row"><span class="lang-name">English</span><div class="lang-bar"><div class="lang-fill" style="width:95%"></div></div><span class="lang-level">Fluent</span></div>
+          <div class="lang-row"><span class="lang-name">French</span><div class="lang-bar"><div class="lang-fill" style="width:93%"></div></div><span class="lang-level">Fluent</span></div>
+          <div class="lang-row"><span class="lang-name">German</span><div class="lang-bar"><div class="lang-fill" style="width:90%"></div></div><span class="lang-level">Fluent</span></div>
+          <div class="lang-row"><span class="lang-name">Ukrainian</span><div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div><span class="lang-level">Native</span></div>
+          <div class="lang-row"><span class="lang-name">Russian</span><div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div><span class="lang-level">Native</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" class="reveal">
+    <div class="section-label" data-i18n="contact.label">Contact</div>
+    <div class="contact-inner">
+      <div>
+        <h2 class="contact-headline" data-i18n="contact.headline">Let's talk.</h2>
+        <p class="contact-sub" data-i18n="contact.sub">Open to Senior AE or Strategic Account roles at leaders in modern data infrastructure & AI. If you have a role that could be a fit, I would love to hear about it.</p>
+      </div>
+      <div class="contact-aside">
+        <a href="mailto:viktoriyav.karpenko@gmail.com" class="contact-link">
+          <span class="link-label">Email</span><span class="link-value">viktoriyav.karpenko@gmail.com</span><span class="link-arrow">→</span>
+        </a>
+        <a href="tel:+33621267367" class="contact-link">
+          <span class="link-label" data-i18n="c.phone">Phone</span><span class="link-value">+33 6 21 26 73 67</span><span class="link-arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/in/viktoriya-karpenko" target="_blank" class="contact-link">
+          <span class="link-label">LinkedIn</span><span class="link-value">linkedin.com/in/viktoriya-karpenko</span><span class="link-arrow">→</span>
+        </a>
+        <a href="CV_Vik_2026.pdf" download class="contact-link">
+          <span class="link-label">CV</span><span class="link-value" data-i18n="c.download">Download PDF</span><span class="link-arrow">↓</span>
+        </a>
+        <a href="index.html" class="contact-link">
+          <span class="link-label">AI Twin</span><span class="link-value" data-i18n="c.twin">Chat with my AI Twin</span><span class="link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Viktoriya Karpenko · Paris · viktoriyav.karpenko@gmail.com</span>
+  <span data-i18n="footer.copy">© 2026 Viktoriya Karpenko. All rights reserved.</span>
+</footer>
+
+<script>
+const i18n = {
+  en: {
+    'nav.avatar':'Talk to my AI Twin','nav.profile':'My Profile','nav.message':'Contact Me','nav.cv':'Download CV',
+    'sub.about':'About','sub.exp':'Experience','sub.skills':'Skills','sub.contact':'Contact',
+    'profile.title':'Enterprise Account Executive · Salesforce · Paris',
+    'profile.tagline':'I lead with curiosity, operate with structure, and close with conviction. Born in Ukraine, built internationally — I sell the way I think: across cultures, industries, and C-suites.',
+    'stat1':'Quota FY26','stat2':'Top BDR FY22','stat3':'Budget managed','stat4':'Languages',
+    'about.label':'About',
+    'about.p1':'Born in Ukraine, I have spent half my life abroad — Germany, France, across LATAM, EMEA, APAC. That international exposure is not a line on a CV; it is how I think. I read rooms differently, adapt instinctively, and build trust across cultures faster than most.',
+    'about.p2':'I started at the FIA managing post-COVID recovery across 70+ national automobile clubs and a 10M€+ budget. It taught me what enterprise complexity really means — multiple stakeholders, political tensions, no obvious playbook. That foundation made Salesforce feel like a natural next step.',
+    'about.p3':'At Salesforce I went from Top BDR (350% in FY22) to Senior AE in FSI & Telco Media. I run 15-month cycles, convert hostile CIOs into champions, and build reference accounts. Now I want to bring that same energy to a leader in modern data infrastructure or AI.',
+    'about.p4':'Outside of work: tennis, painting, and building a life around travel, sport, and continuous curiosity. I believe the best salespeople are the ones who never stop learning.',
+    'd.location':'Location','d.current':'Current','d.background':'Background','d.languages':'Languages',
+    'exp.label':'Experience',
+    'exp1.role':'Enterprise Account Executive — FSI & Telco Media',
+    'exp1.b1':'Managing ~20 Enterprise Accounts across Global Banking, Insurance, Telco & Media',
+    'exp1.b2':'Complex multi-stakeholder cycles up to 15 months — C-suite, CTO, Engineering/IT leaders',
+    'exp1.b3':'Full Salesforce 360 stack: Sales Cloud, Service Cloud, Marketing Cloud, Data Cloud, Agentforce',
+    'exp1.b4':'Orchestrating cross-functional teams: SEs, Architects, PS, CSMs, ISV partners',
+    'exp1.b5':'6 net-new logos in FY26 across Banking, Insurance, Telco & Media',
+    'exp2.role':'Business Development Representative — Automotive',
+    'exp2.b1':'Inbound & outbound pipeline on French Enterprise Automotive accounts',
+    'exp2.b2':'Strategic accounts: Stellantis, Renault, Michelin',
+    'exp2.b3':'Strong alignment with Global Account Managers on strategy and decision-making',
+    'exp3.role':'Senior Program Manager — Membership & Services',
+    'exp3.b1':'Led "Mobility Worldwide" — 2M€+ post-COVID recovery program across 70+ FIA Members in LATAM, EMEA, APAC & CEE',
+    'exp3.b2':'Managed 10M€+ annual divisional budget; achieved 25% cost reduction',
+    'exp3.b3':'Oversaw separate 1M€ annual grant program simultaneously',
+    'exp3.b4':'Delivered content for international events across 12+ countries',
+    'exp3.b5':'Reported directly to C-level; presented at FIA governing bodies',
+    'exp4.role':'VIP Sales, Customer Care & Marketing Intern',
+    'exp4.b1':'Munich HQ — VIP client management, customer care and marketing support',
+    'skills.label':'Skills',
+    'sk.sales':'Sales & Strategy','sk.platform':'Platform & Tech','sk.languages':'Languages',
+    'contact.label':'Contact','contact.headline':"Let's talk.",
+    'contact.sub':'Open to Senior AE or Strategic Account roles at leaders in modern data infrastructure & AI. If you have a role that could be a fit, I would love to hear about it.',
+    'c.phone':'Phone','c.download':'Download PDF','c.twin':'Chat with my AI Twin',
+    'footer.copy':'© 2026 Viktoriya Karpenko. All rights reserved.'
+  },
+  fr: {
+    'nav.avatar':'Parler à mon AI Twin','nav.profile':'Mon Profil','nav.message':'Me contacter','nav.cv':'Télécharger le CV',
+    'sub.about':'À propos','sub.exp':'Expérience','sub.skills':'Compétences','sub.contact':'Contact',
+    'profile.title':'Enterprise Account Executive · Salesforce · Paris',
+    'profile.tagline':'Je mène avec la curiosité, j\'opère avec la structure, et je conclus avec conviction. Née en Ukraine, construite à l\'international — je vends comme je pense : à travers les cultures, les industries et les C-suites.',
+    'stat1':'Quota FY26','stat2':'Top BDR FY22','stat3':'Budget géré','stat4':'Langues',
+    'about.label':'À propos',
+    'about.p1':'Née en Ukraine, j\'ai passé la moitié de ma vie à l\'étranger — Allemagne, France, LATAM, EMEA, APAC. Cette exposition internationale n\'est pas une ligne sur un CV ; c\'est ma façon de penser. Je lis les situations différemment, je m\'adapte instinctivement, et je crée de la confiance entre cultures plus vite que la plupart.',
+    'about.p2':'J\'ai commencé à la FIA en gérant la relance post-COVID de 70+ clubs automobiles nationaux avec un budget de 10M€+. Ça m\'a appris ce que la complexité enterprise signifie vraiment — multiples parties prenantes, tensions politiques, aucun playbook évident.',
+    'about.p3':'Chez Salesforce, je suis passée de Top BDR (350% en FY22) à Senior AE FSI & Telco Media. Je gère des cycles de 15 mois, je convertis des CIO hostiles en champions internes, et je construis des comptes de référence.',
+    'about.p4':'En dehors du travail : tennis, peinture, et construire une vie autour du voyage, du sport et de la curiosité permanente.',
+    'd.location':'Localisation','d.current':'Poste actuel','d.background':'Parcours','d.languages':'Langues',
+    'exp.label':'Expérience',
+    'exp1.role':'Enterprise Account Executive — FSI & Telco Media',
+    'exp1.b1':'Gestion de ~20 comptes Enterprise en Banque, Assurance, Telco & Media',
+    'exp1.b2':'Cycles multi-parties prenantes jusqu\'à 15 mois — C-suite, CTO, IT leaders',
+    'exp1.b3':'Stack Salesforce 360 complet : Sales Cloud, Service Cloud, Marketing Cloud, Data Cloud, Agentforce',
+    'exp1.b4':'Orchestration d\'équipes cross-fonctionnelles : SEs, Architectes, PS, CSMs, ISV',
+    'exp1.b5':'6 nouveaux logos en FY26 en Banque, Assurance, Telco & Media',
+    'exp2.role':'Business Development Representative — Automotive',
+    'exp2.b1':'Pipeline inbound & outbound sur les comptes Enterprise Automotive France',
+    'exp2.b2':'Comptes stratégiques : Stellantis, Renault, Michelin',
+    'exp2.b3':'Alignement fort avec les Global Account Managers sur la stratégie',
+    'exp3.role':'Senior Program Manager — Membership & Services',
+    'exp3.b1':'"Mobility Worldwide" — programme de relance post-COVID de 2M€+ pour 70+ membres FIA en LATAM, EMEA, APAC & CEE',
+    'exp3.b2':'Budget annuel de division 10M€+ ; réduction des coûts de 25%',
+    'exp3.b3':'Gestion simultanée d\'un programme de subventions de 1M€',
+    'exp3.b4':'Contenu pour des événements internationaux dans 12+ pays',
+    'exp3.b5':'Rapport direct au C-level ; présentations aux instances dirigeantes FIA',
+    'exp4.role':'Stagiaire VIP Sales, Customer Care & Marketing',
+    'exp4.b1':'Siège Munich — gestion clients VIP, support marketing',
+    'skills.label':'Compétences',
+    'sk.sales':'Vente & Stratégie','sk.platform':'Plateforme & Tech','sk.languages':'Langues',
+    'contact.label':'Contact','contact.headline':'Parlons-en.',
+    'contact.sub':'Ouverte à des postes Senior AE ou Strategic Account chez des leaders de la data moderne & de l\'IA. Si vous avez un rôle qui pourrait convenir, je serais ravie d\'en discuter.',
+    'c.phone':'Téléphone','c.download':'Télécharger le PDF','c.twin':'Parler à mon AI Twin',
+    'footer.copy':'© 2026 Viktoriya Karpenko. Tous droits réservés.'
+  }
+};
+
+let currentLang = localStorage.getItem('lang') || 'en';
+
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  burger.classList.toggle('open');
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.textContent === lang.toUpperCase()));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang]?.[key]) el.textContent = i18n[lang][key];
+  });
+  document.documentElement.lang = lang;
+}
+
+setLang(currentLang);
+
+// Subnav active on scroll
+const subLinks = document.querySelectorAll('.subnav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      subLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.subnav a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+['about','experience','skills','contact'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

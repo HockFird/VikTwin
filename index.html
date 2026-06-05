@@ -15,6 +15,8 @@
   --paper: #faf9f7; --paper-warm: #f3f1ed; --rule: #e2e0db;
   --serif: 'EB Garamond', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
   --nav-h: 49px;
+  --accent: #FF6547;
+  --accent-dark: #d94830;
 }
 html, body { height: 100%; }
 body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
@@ -25,9 +27,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; j
 .nav-right { display: flex; align-items: center; gap: 28px; }
 .nav-links { display: flex; gap: 28px; list-style: none; }
 .nav-links a { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); transition: color 0.2s; }
-.nav-links a:hover, .nav-links a.active { color: var(--ink); }
-.nav-btn { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; background: var(--ink); color: var(--paper); padding: 6px 14px; border-radius: 2px; transition: background 0.2s; }
-.nav-btn:hover { background: #333; }
+.nav-links a:hover { color: var(--ink); } .nav-links a.active { color: var(--accent); border-bottom: 1.5px solid var(--accent); }
+.nav-btn { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; background: var(--accent); color: var(--paper); padding: 6px 14px; border-radius: 2px; transition: background 0.2s; }
+.nav-btn:hover { background: var(--accent-dark); }
 .lang-toggle { display: flex; border: 0.5px solid var(--rule); border-radius: 2px; overflow: hidden; }
 .lang-btn { font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; padding: 4px 9px; background: transparent; border: none; cursor: pointer; color: var(--ink-soft); transition: all 0.2s; }
 .lang-btn.active { background: var(--ink); color: var(--paper); }
@@ -60,14 +62,14 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; j
 .av-title { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
 .av-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink-soft); }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); transition: background 0.3s; }
-.status-dot.speaking { background: var(--ink); animation: blink 0.8s ease-in-out infinite; }
+.status-dot.speaking { background: var(--accent); animation: blink 0.8s ease-in-out infinite; }
 @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
 .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--paper-warm); border: 0.5px solid var(--rule); color: var(--ink-soft); margin-bottom: 4px; }
 .badge-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
 .badge-row .badge { margin-bottom: 0; }
 .pills-label { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); align-self: flex-start; width: 100%; margin-bottom: 2px; }
 .pill { font-family: var(--sans); font-size: 11px; color: var(--ink-mid); background: var(--paper-warm); border: 0.5px solid var(--rule); border-radius: 2px; padding: 8px 12px; text-align: left; cursor: pointer; transition: all 0.2s; line-height: 1.4; width: 100%; margin-bottom: 5px; }
-.pill:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.pill:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
 
 /* RIGHT PANEL */
 .right { display: flex; flex-direction: column; padding: 32px 36px 24px; background: var(--paper-warm); overflow-y: auto; }
@@ -96,8 +98,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; j
 .input-row { display: flex; gap: 10px; align-items: flex-end; border-top: 0.5px solid var(--rule); padding-top: 14px; margin-top: auto; }
 .chat-input { flex: 1; font-family: var(--sans); font-size: 13px; color: var(--ink); background: var(--paper); border: 0.5px solid var(--rule); border-radius: 2px; padding: 10px 14px; outline: none; resize: none; line-height: 1.5; transition: border-color 0.2s; min-height: 42px; max-height: 100px; }
 .chat-input:focus { border-color: var(--ink-soft); }
-.send-btn { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; background: var(--ink); color: var(--paper); border: none; border-radius: 2px; padding: 10px 18px; cursor: pointer; height: 42px; transition: background 0.2s; }
-.send-btn:hover { background: #333; }
+.send-btn { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent); color: var(--paper); border: none; border-radius: 2px; padding: 10px 18px; cursor: pointer; height: 42px; transition: background 0.2s; }
+.send-btn:hover { background: var(--accent-dark); }
 .send-btn:disabled { background: var(--ink-faint); cursor: not-allowed; }
 
 /* POPUP */
@@ -112,8 +114,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; j
 .popup-input:focus { border-color: var(--ink-soft); }
 .popup-actions { display: flex; gap: 10px; }
 .popup-btn { flex: 1; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px; border-radius: 2px; border: none; cursor: pointer; transition: all 0.2s; }
-.popup-btn.primary { background: var(--ink); color: var(--paper); }
-.popup-btn.primary:hover { background: #333; }
+.popup-btn.primary { background: var(--accent); color: var(--paper); }
+.popup-btn.primary:hover { background: var(--accent-dark); }
 .popup-btn.secondary { background: transparent; color: var(--ink-soft); border: 0.5px solid var(--rule); }
 .popup-btn.secondary:hover { color: var(--ink); border-color: var(--ink); }
 
@@ -152,6 +154,7 @@ footer { border-top: 0.5px solid var(--rule); padding: 16px 48px; display: flex;
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="index.html" class="active" data-i18n="nav.avatar">Talk to my AI Twin</a></li>
+      <li><a href="profile.html" data-i18n="nav.profile">My Profile</a></li>
       <li><a href="#contact" data-i18n="nav.message">Contact Me</a></li>
     </ul>
     <a href="CV_Vik_2026.pdf" download class="nav-btn desktop-only" data-i18n="nav.cv">Download CV</a>
@@ -167,6 +170,7 @@ footer { border-top: 0.5px solid var(--rule); padding: 16px 48px; display: flex;
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" class="active" data-i18n="nav.avatar" onclick="toggleMenu()">Talk to my AI Twin</a>
+  <a href="profile.html" data-i18n="nav.profile" onclick="toggleMenu()">My Profile</a>
   <a href="#contact" data-i18n="nav.message" onclick="toggleMenu()">Contact Me</a>
   <a href="CV_Vik_2026.pdf" download class="nav-btn" data-i18n="nav.cv" onclick="toggleMenu()">Download CV</a>
   <div class="lang-toggle">
@@ -185,7 +189,7 @@ footer { border-top: 0.5px solid var(--rule); padding: 16px 48px; display: flex;
       <div class="photo-wrap"><img class="photo" src="photo.png" alt="Viktoriya Karpenko"></div>
       <div class="mobile-avatar-info">
         <div class="av-name" style="font-size:15px">Viktoriya Karpenko</div>
-        <div class="av-title">Senior Account Executive</div>
+        <div class="av-title">Enterprise Account Executive</div>
         <div class="badge-row" style="margin-top:4px">
           <div class="badge">🌍 <span data-i18n="badge.lang">5 languages</span></div>
         </div>
@@ -196,7 +200,7 @@ footer { border-top: 0.5px solid var(--rule); padding: 16px 48px; display: flex;
     <div class="desktop-only" style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%">
       <div class="photo-wrap"><img class="photo" src="photo.png" alt="Viktoriya Karpenko"></div>
       <div class="av-name">Viktoriya Karpenko</div>
-      <div class="av-title">Senior Account Executive · Salesforce</div>
+      <div class="av-title">Enterprise Account Executive · Salesforce</div>
       <div class="av-status">
         <div class="status-dot" id="statusDot"></div>
         <span id="statusText" data-i18n="status.ready">Click to say hello</span>
@@ -285,7 +289,7 @@ Career:
 3. Salesforce France — BDR / Automotive (Oct 2021 – Jan 2024)
    - Inbound & outbound pipeline on Enterprise Automotive accounts (Stellantis, Renault, Michelin)
    - FY2022: Top BDR Performer — 350% quota attainment
-4. Salesforce France — Sr Account Executive, Enterprise Corporate Sales, FSI & Telco Media (Feb 2024 – Present)
+4. Salesforce France — Enterprise Account Executive, Enterprise Corporate Sales, FSI & Telco Media (Feb 2024 – Present)
    - €1M quota target; FY26: 142% attainment, 6 net-new logos
    - FY25: 75% | FY24: 200% | FY23: 150%
    - Manages ~20 Enterprise Accounts across Global Banking & Insurance
